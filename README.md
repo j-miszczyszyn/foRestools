@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-<img src="Logo.png" align="right" alt="" width="150" /> \# foRestools
+<img src="Logo.png" align="right" alt="" width="300" /> \# foRestools
 
 <!-- badges: start -->
 <!-- badges: end -->
@@ -25,6 +25,20 @@ This is a basic example which shows you how to solve a common problem:
 
 ``` r
 library(foRestools)
+
+# #Set a filepath to your raster
+# r=stars::read_stars("filepath")
+# 
+# #Set number of bands
+# define_nir(8)
+# define_red(6)
+# 
+# #Chose and calculate index
+# calculate_NDVI(r)
+# 
+# # Plot Index
+# plot(ndvi)
+
 ## basic example code
 ```
 
