@@ -11,5 +11,4 @@ calculate_GSAVI=function(r){
   red=r[, , , band_red, drop = TRUE]
   nir=r[, , , band_nir, drop = TRUE]
   gsavi = (nir - green)/ (nir + green+1)*1.5
-  assign("gsavi", gsavi, envir = .GlobalEnv)
 }

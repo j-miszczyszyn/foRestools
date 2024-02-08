@@ -10,5 +10,4 @@ calculate_GDVI=function(r){
   green=r[, , , band_green, drop = TRUE]
   nir=r[, , , band_nir, drop = TRUE]
   gdvi = (nir - green)
-  assign("gdvi", gdvi, envir = .GlobalEnv)
 }

@@ -10,5 +10,4 @@ calculate_NDVI=function(r){
   red=r[, , , band_red, drop = TRUE]
   nir=r[, , , band_nir, drop = TRUE]
   ndvi = (nir - red) / (nir + red)
-  return(ndvi)
 }

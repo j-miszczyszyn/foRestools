@@ -11,5 +11,4 @@ calculate_TGI=function(r){
   green=r[, , , band_green, drop = TRUE]
   red=r[, , , band_red, drop = TRUE]
   tgi = green -(0.39*red)-(0.61*blue)
-  assign("tgi", tgi, envir = .GlobalEnv)
 }
