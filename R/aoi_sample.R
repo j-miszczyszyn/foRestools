@@ -1,4 +1,4 @@
-#' Example data
+#' Example data - Shapefile
 #'
 #' Example data created manually for the purpose of this package.
 #'
