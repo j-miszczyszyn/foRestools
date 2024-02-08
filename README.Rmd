@@ -37,16 +37,16 @@ This is a basic example which shows you how to solve a common problem:
 library(foRestools)
 
 # #Set a filepath to your raster
-# r=stars::read_stars("filepath")
-# 
-# #Set number of bands
+# r=raster_sample
+# # 
+# # #Set number of bands
 # define_nir(8)
 # define_red(6)
 # 
-# #Chose and calculate index
+# # #Chose and calculate index
 # calculate_NDVI(r)
 # 
-# # Plot Index
+# # # Plot Index
 # plot(ndvi)
 
 ## basic example code
