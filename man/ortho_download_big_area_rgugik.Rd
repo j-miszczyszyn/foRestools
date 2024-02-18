@@ -7,13 +7,7 @@
 ortho_download_big_area_rgugik(x, y)
 }
 \arguments{
-\item{x}{\itemize{
-\item path to your shapefile
-}}
-
-\item{y}{\itemize{
-\item integer of length 1 or 2, number of grid cells in x and y direction (columns, rows)
-}}
+\item{y}{}
 }
 \description{
 Title

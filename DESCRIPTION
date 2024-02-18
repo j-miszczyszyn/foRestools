@@ -1,9 +1,7 @@
 Package: foRestools
 Title: Tools for foresters
 Version: 1.0.1
-
-Authors@R: 
-    person("First", "Last", , "jakub.miszczyszyn@urk.edu.pl", role = c("cre","aut"),
+Authors@R: person("First", "Last", , "jakub.miszczyszyn@urk.edu.pl", role = c("cre","aut"),
            comment = c(ORCID = "0009-0002-8592-946X"))
 Description: Calculate vegetation indices and generate statistics and charts for user defined districts
 License: MIT + file LICENSE
