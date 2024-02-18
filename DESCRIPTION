@@ -1,6 +1,6 @@
 Package: foRestools
 Title: Tools for foresters
-Version: 1.0.0
+Version: 1.0.1
 Authors@R: 
     person("First", "Last", , "jakub.miszczyszyn@urk.edu.pl", role = c("cre","aut"),
            comment = c(ORCID = "0009-0002-8592-946X"))
@@ -14,7 +14,8 @@ Imports:
     terra,
     sf,
     exactextractr,
-    lifecycle
+    lifecycle,
+    rgugik
 Suggest: here
 LazyData: FALSE
 Depends: 
