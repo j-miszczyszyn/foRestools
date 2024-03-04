@@ -1,3 +1,3 @@
-# foRestools 1.0.0
+# foRestools 1.0.1
 
 * Initial CRAN submission.
