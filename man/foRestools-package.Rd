@@ -8,7 +8,7 @@
 \description{
 \if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
 
-Calculate vegetation indices and generate statistics and charts for user defined districts
+Provides a collection of tools for analyzing forest data and performing remote sensing tasks. Includes functions for creating Canopy Height Models (CHM), detecting trees from XY coordinates, calculating various vegetation indices (CCI, DVI, GDVI, GSAVI, MSAVI, NDVI, TGI), defining Areas of Interest (AOI), and more. Designed to facilitate the processing and analysis of remote sensing data for forest management and research.
 }
 \seealso{
 Useful links:
