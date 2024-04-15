@@ -11,7 +11,7 @@ vignette: >
 ```{r}
 library(rgugik)
 library(tidyverse)
-library(here)
+# library(here)
 library(sf)
 library(mapview)
 ```
