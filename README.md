@@ -1,11 +1,10 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-<img src="man/figures/logo.png" align="right" alt="" width="300" /> \#
-foRestools
+# foRestools
 
-<!-- badges: start -->
-<!-- badges: end -->
+<img src="man/figures/logo.png" align="right" alt="" width="300" />
+<!-- badges: start --> <!-- badges: end -->
 
 The goal of foRestools is to providing toolkits and methods to support
 foresters in data processing and forest environment management.
