@@ -47,7 +47,7 @@ library(foRestools)
 W omawianym przykładzie przygotowano AOI Krynicy-Zdrój, należy zapisać kopie pliku i zapamiętać jego ścieżkę.
 Pobierać możemy też innymi plikami niż omówiony w przykładzie, należy pamiętać aby był on w układzie PL-1992
 ```{r}
-st_write(counties_geom, "aoi_geometry.shp")
+# st_write(counties_geom, "aoi_geometry.shp")
 ```
 
 # Pobieranie informacji dla AOI

@@ -1,0 +1,14 @@
+---
+title: "vignettes/Rgugik_big_area_support"
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(foRestools)
+```
