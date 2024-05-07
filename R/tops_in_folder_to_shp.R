@@ -1,16 +1,21 @@
 #' Title
+#' Process CHM Files in Folder and Optionally Save Tree Tops to Shapefile
 #'
-#' @param folder_path
-#' @param ws_par
-#' @param hmin_par
-#' @param crs_def
-#' @param output_folder
-#' @param save_tops
-#' @param save_SHP
+#' This function processes all Canopy Height Model (CHM) TIFF files in a specified folder, detects tree tops using
+#' the `detect_tops_in_CHM` function, and optionally saves the results as a shapefile. Each tree top detection
+#' is assigned an ID number and the results are combined into a spatial dataframe.
 #'
-#' @return
+#' @param folder_path The directory path containing the CHM TIFF files.
+#' @param ws_par The window size parameter for the local maxima filter (LMF) algorithm in the lidR package.
+#' @param hmin_par The minimum height parameter for the LMF algorithm.
+#' @param crs_def The coordinate reference system (CRS) definition to be applied to the output spatial dataframe.
+#' @param output_folder The directory path where the output shapefile should be saved if saving is enabled.
+#' @param save_tops A logical value indicating whether to save the detected tree tops data frame during processing.
+#' @param save_SHP A logical value indicating whether to save the final spatial dataframe as a shapefile.
+#'
+#' @return Returns a spatial dataframe of detected tree tops with ID numbers. If `save_SHP` is TRUE,
+#' a shapefile will also be generated.
 #' @export
-#'
 #' @examples
 tops_in_folder_to_shp=function(folder_path,ws_par,hmin_par,crs_def, output_folder, save_tops, save_SHP){
 
