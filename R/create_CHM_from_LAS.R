@@ -16,7 +16,8 @@
 #'
 #' @examples
 #' \dontrun{
-#' create_CHM_from_LAS("path/to/your/las_file.las", 0.5, 2, TRUE, "path/to/output/folder")}
+#' create_CHM_from_LAS("path/to/your/las_file.las", 0.5, 2, TRUE, "path/to/output/folder")
+#' }
 create_CHM_from_LAS <- function(las_path, res_par, p2r_par, save_chm, output_folder) {
   # Rasterize the LAS file to create a canopy height model (CHM)
   x <- lidR::rasterize_canopy(las_path, res = res_par, algorithm = lidR::p2r(p2r_par))
@@ -29,5 +30,4 @@ create_CHM_from_LAS <- function(las_path, res_par, p2r_par, save_chm, output_fol
   if (save_chm) {
     raster::writeRaster(x, paste0(output_folder, "/", name, "_CHM.tif"))
   }
-
 }

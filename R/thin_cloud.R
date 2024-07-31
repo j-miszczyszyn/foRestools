@@ -14,14 +14,14 @@
 #' @export
 #'
 #' @examples
-#'
-#' \dontrun{thin_cloud("path/to/your/point_cloud.las", "path/to/output/folder", TRUE)}
-thin_cloud=function(las_path, folder, save_las){
-  las_thined=lidR::readLAS(las_path, filter = "-keep_class 4 5" )
-  name=basename(las_path)
-  name=stringr::str_replace(name, ".las","")
-  if  (save_las==TRUE){
-    lidR::writeLAS(las_thined, paste0(folder,"/", name,"_THINED.las"))
-    }
+#' \dontrun{
+#' thin_cloud("path/to/your/point_cloud.las", "path/to/output/folder", TRUE)
+#' }
+thin_cloud <- function(las_path, folder, save_las) {
+  las_thined <- lidR::readLAS(las_path, filter = "-keep_class 4 5")
+  name <- basename(las_path)
+  name <- stringr::str_replace(name, ".las", "")
+  if (save_las == TRUE) {
+    lidR::writeLAS(las_thined, paste0(folder, "/", name, "_THINED.las"))
+  }
 }
-
