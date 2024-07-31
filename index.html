@@ -45,7 +45,7 @@
   </div>
 </nav><div class="container template-home">
 <div class="row">
-  <main id="main" class="col-md-9"><p><img src="reference/figures/logo.png" align="right" height="300" alt=""> # foRestools</p>
+  <main id="main" class="col-md-9"><p><img src="reference/figures/logo.png" align="right" height="300" alt=""> FoRestools</p>
 <!-- badges: start -->
 
 <p>The goal of foRestools is to providing toolkits and methods to support foresters in data processing and forest environment management.</p>
@@ -58,26 +58,167 @@
 <span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"j-miszczyszyn/foRestools"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
+<h2 id="calculating-new-coordinates">Calculating new coordinates<a class="anchor" aria-label="anchor" href="#calculating-new-coordinates"></a>
 </h2>
-<p>This is a basic example which shows you how to solve a common problem:</p>
+<p>The function calculate_new_position calculates the new coordinates, taking into account the initial longitude and latitude, distance in meters and direction in degrees.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://j-miszczyszyn.github.io/foRestools/">foRestools</a></span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># #Set a filepath to your raster</span></span>
-<span><span class="co"># r=stars::read_stars("filepath")</span></span>
-<span><span class="co"># </span></span>
-<span><span class="co"># #Set number of bands</span></span>
-<span><span class="co"># define_nir(8)</span></span>
-<span><span class="co"># define_red(6)</span></span>
-<span><span class="co"># </span></span>
-<span><span class="co"># #Chose and calculate index</span></span>
-<span><span class="co"># calculate_NDVI(r)</span></span>
-<span><span class="co"># </span></span>
-<span><span class="co"># # Plot Index</span></span>
-<span><span class="co"># plot(ndvi)</span></span>
+<span><span class="co"># Starting coordinates</span></span>
+<span><span class="va">start_lon</span> <span class="op">&lt;-</span> <span class="fl">19.9449799</span>  <span class="co"># longitude for Krakow, Poland</span></span>
+<span><span class="va">start_lat</span> <span class="op">&lt;-</span> <span class="fl">50.0646501</span>  <span class="co"># latitude for Krakow, Poland</span></span>
 <span></span>
-<span><span class="co">## basic example code</span></span></code></pre></div>
+<span><span class="co"># Distance in meters and direction in degrees</span></span>
+<span><span class="va">distance</span> <span class="op">&lt;-</span> <span class="fl">1000</span>  <span class="co"># 1 km</span></span>
+<span><span class="va">bearing</span> <span class="op">&lt;-</span> <span class="fl">45</span>  <span class="co"># 45 degrees (northeast)</span></span>
+<span></span>
+<span><span class="co"># Calculate new coordinates</span></span>
+<span><span class="va">new_position</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/calculate_new_position.html">calculate_new_position</a></span><span class="op">(</span><span class="va">start_lon</span>, <span class="va">start_lat</span>, <span class="va">distance</span>, <span class="va">bearing</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Print new coordinates</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="st">"New longitude:"</span>, <span class="va">new_position</span><span class="op">$</span><span class="va">longitude</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="st">"New latitude:"</span>, <span class="va">new_position</span><span class="op">$</span><span class="va">latitude</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="clipping-lidar-point-cloud-to-aoi">Clipping LiDAR Point Cloud to AOI<a class="anchor" aria-label="anchor" href="#clipping-lidar-point-cloud-to-aoi"></a>
+</h2>
+<p>The function cliping_cloud_to_aoi reads a LAS file, assigns a new coordinate reference system (CRS) to both the point cloud and the Area of Interest (AOI), clips the point cloud to the AOI, and optionally saves the clipped point cloud to a new LAS file.</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://j-miszczyszyn.github.io/foRestools/">foRestools</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Assuming 'path_to_las', 'aoi_sf', 'output_folder', and 'crs_definition' are predefined:</span></span>
+<span><span class="va">path_to_las</span> <span class="op">&lt;-</span> <span class="st">"path/to/your/input.las"</span></span>
+<span><span class="va">aoi_sf</span> <span class="op">&lt;-</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">st_read</a></span><span class="op">(</span><span class="st">"path/to/your/aoi.shp"</span><span class="op">)</span></span>
+<span><span class="va">output_folder</span> <span class="op">&lt;-</span> <span class="st">"path/to/output/folder"</span></span>
+<span><span class="va">crs_definition</span> <span class="op">&lt;-</span> <span class="st">"+proj=utm +zone=33 +datum=WGS84 +units=m +no_defs"</span></span>
+<span></span>
+<span><span class="co"># Clipping the point cloud to the AOI</span></span>
+<span><span class="va">clipped_las</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/cliping_cloud_to_aoi.html">cliping_cloud_to_aoi</a></span><span class="op">(</span><span class="va">path_to_las</span>, <span class="va">aoi_sf</span>, <span class="va">output_folder</span>, <span class="va">crs_definition</span>, <span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Displaying the clipped point cloud</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">clipped_las</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="creating-canopy-height-model-chm-from-las-file">Creating Canopy Height Model (CHM) from LAS File<a class="anchor" aria-label="anchor" href="#creating-canopy-height-model-chm-from-las-file"></a>
+</h2>
+<p>The function create_CHM_from_LAS processes a LAS file to generate a Canopy Height Model (CHM) using the specified resolution and pixel-to-region (p2r) parameters. The resulting CHM can optionally be saved as a TIFF file in the specified output folder.</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://j-miszczyszyn.github.io/foRestools/">foRestools</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Assuming 'las_file_path', 'resolution', 'p2r_parameter', and 'output_folder_path' are predefined:</span></span>
+<span><span class="va">las_file_path</span> <span class="op">&lt;-</span> <span class="st">"path/to/your/las_file.las"</span></span>
+<span><span class="va">resolution</span> <span class="op">&lt;-</span> <span class="fl">0.5</span>  <span class="co"># size of each pixel in the output raster</span></span>
+<span><span class="va">p2r_parameter</span> <span class="op">&lt;-</span> <span class="fl">2</span>  <span class="co"># pixel-to-region parameter for rasterizing the point cloud</span></span>
+<span><span class="va">output_folder_path</span> <span class="op">&lt;-</span> <span class="st">"path/to/output/folder"</span></span>
+<span></span>
+<span><span class="co"># Creating the CHM from the LAS file</span></span>
+<span><span class="fu"><a href="reference/create_CHM_from_LAS.html">create_CHM_from_LAS</a></span><span class="op">(</span><span class="va">las_file_path</span>, <span class="va">resolution</span>, <span class="va">p2r_parameter</span>, <span class="cn">TRUE</span>, <span class="va">output_folder_path</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="downloading-dem-for-a-large-area-from-rgugik">Downloading DEM for a Large Area from RGUGIK<a class="anchor" aria-label="anchor" href="#downloading-dem-for-a-large-area-from-rgugik"></a>
+</h2>
+<p>The function dem_download_big_area_rgugik downloads Digital Elevation Model (DEM) data for a large area specified by a shapefile. The area is divided into a grid of smaller sections to manage the request size. The DEM data for each section is requested from the RGUGIK service and combined into a single dataframe.</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://j-miszczyszyn.github.io/foRestools/">foRestools</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Assuming 'shapefile_path' and 'grid_cells' are predefined:</span></span>
+<span><span class="va">shapefile_path</span> <span class="op">&lt;-</span> <span class="st">"path/to/your/shapefile.shp"</span></span>
+<span><span class="va">grid_cells</span> <span class="op">&lt;-</span> <span class="fl">10</span>  <span class="co"># number of grid cells to divide the area of interest</span></span>
+<span></span>
+<span><span class="co"># Downloading DEM data for the large area</span></span>
+<span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/dem_download_big_area_rgugik.html">dem_download_big_area_rgugik</a></span><span class="op">(</span><span class="va">shapefile_path</span>, <span class="va">grid_cells</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Printing the result</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">result</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="detecting-tree-tops-in-a-canopy-height-model-chm">Detecting Tree Tops in a Canopy Height Model (CHM)<a class="anchor" aria-label="anchor" href="#detecting-tree-tops-in-a-canopy-height-model-chm"></a>
+</h2>
+<p>The function detect_tops_in_CHM identifies tree tops in a Canopy Height Model (CHM) file using the local maxima filter (LMF) algorithm provided by the lidR package. The identified tree tops can optionally be saved as a shapefile.</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://j-miszczyszyn.github.io/foRestools/">foRestools</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Assuming 'CHM_file_path', 'window_size', 'min_height', and 'output_folder_path' are predefined:</span></span>
+<span><span class="va">CHM_file_path</span> <span class="op">&lt;-</span> <span class="st">"path/to/your/CHM.tif"</span></span>
+<span><span class="va">window_size</span> <span class="op">&lt;-</span> <span class="fl">5</span>  <span class="co"># size of the window used to find local maxima</span></span>
+<span><span class="va">min_height</span> <span class="op">&lt;-</span> <span class="fl">10</span>  <span class="co"># minimum tree height to be considered</span></span>
+<span><span class="va">output_folder_path</span> <span class="op">&lt;-</span> <span class="st">"path/to/output/folder"</span></span>
+<span></span>
+<span><span class="co"># Detecting tree tops in the CHM</span></span>
+<span><span class="fu"><a href="reference/detect_tops_in_CHM.html">detect_tops_in_CHM</a></span><span class="op">(</span><span class="va">CHM_file_path</span>, <span class="va">window_size</span>, <span class="va">min_height</span>, <span class="va">output_folder_path</span>, <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="normalizing-height-of-lidar-point-cloud">Normalizing Height of LiDAR Point Cloud<a class="anchor" aria-label="anchor" href="#normalizing-height-of-lidar-point-cloud"></a>
+</h2>
+<p>The function normalize_height_in_clouds reads a LAS file, normalizes the heights of the point cloud using a TIN surface, and optionally saves the normalized point cloud to a new LAS file. Only the points classified as ground (class = 2) are used to compute the TIN surface.</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://j-miszczyszyn.github.io/foRestools/">foRestools</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Assuming 'path_to_las' and 'output_folder' are predefined:</span></span>
+<span><span class="va">path_to_las</span> <span class="op">&lt;-</span> <span class="st">"path/to/your/input.las"</span></span>
+<span><span class="va">output_folder</span> <span class="op">&lt;-</span> <span class="st">"path/to/output/folder"</span></span>
+<span></span>
+<span><span class="co"># Normalizing the height of the point cloud</span></span>
+<span><span class="va">normalized_las</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/normalize_height_in_clouds.html">normalize_height_in_clouds</a></span><span class="op">(</span><span class="va">path_to_las</span>, <span class="va">output_folder</span>, <span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Displaying the normalized point cloud</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">normalized_las</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="downloading-orthophoto-for-a-large-area-from-rgugik">Downloading Orthophoto for a Large Area from RGUGIK<a class="anchor" aria-label="anchor" href="#downloading-orthophoto-for-a-large-area-from-rgugik"></a>
+</h2>
+<p>The function ortho_download_big_area_rgugik downloads orthophoto data for a large area specified by a shapefile. The area is divided into a grid of smaller sections to manage the request size. The orthophoto data for each section is requested from the RGUGIK service and combined into a single dataframe.</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://j-miszczyszyn.github.io/foRestools/">foRestools</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Assuming 'shapefile_path' and 'grid_cells' are predefined:</span></span>
+<span><span class="va">shapefile_path</span> <span class="op">&lt;-</span> <span class="st">"path/to/your/shapefile.shp"</span></span>
+<span><span class="va">grid_cells</span> <span class="op">&lt;-</span> <span class="fl">10</span>  <span class="co"># number of grid cells to divide the area of interest</span></span>
+<span></span>
+<span><span class="co"># Downloading orthophoto data for the large area</span></span>
+<span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/ortho_download_big_area_rgugik.html">ortho_download_big_area_rgugik</a></span><span class="op">(</span><span class="va">shapefile_path</span>, <span class="va">grid_cells</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Printing the result</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">result</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="thinning-point-cloud-by-keeping-specific-classes">Thinning Point Cloud by Keeping Specific Classes<a class="anchor" aria-label="anchor" href="#thinning-point-cloud-by-keeping-specific-classes"></a>
+</h2>
+<p>The function thin_cloud reads a LAS file, filters it to retain only specified classes of points (e.g., vegetation), and optionally saves the thinned point cloud to a new LAS file. The function specifically keeps points classified as 4 (medium vegetation) and 5 (high vegetation) by default.</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://j-miszczyszyn.github.io/foRestools/">foRestools</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Assuming 'path_to_las' and 'output_folder' are predefined:</span></span>
+<span><span class="va">path_to_las</span> <span class="op">&lt;-</span> <span class="st">"path/to/your/point_cloud.las"</span></span>
+<span><span class="va">output_folder</span> <span class="op">&lt;-</span> <span class="st">"path/to/output/folder"</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="processing-chm-files-in-folder-and-optionally-saving-tree-tops-to-shapefile">Processing CHM Files in Folder and Optionally Saving Tree Tops to Shapefile<a class="anchor" aria-label="anchor" href="#processing-chm-files-in-folder-and-optionally-saving-tree-tops-to-shapefile"></a>
+</h2>
+<p>The function tops_in_folder_to_shp processes all Canopy Height Model (CHM) TIFF files in a specified folder, detects tree tops using the detect_tops_in_CHM function, and optionally saves the results as a shapefile. Each tree top detection is assigned an ID number and the results are combined into a spatial dataframe.</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://j-miszczyszyn.github.io/foRestools/">foRestools</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Assuming 'folder_path', 'window_size', 'min_height', 'crs_definition', and 'output_folder_path' are predefined:</span></span>
+<span><span class="va">folder_path</span> <span class="op">&lt;-</span> <span class="st">"path/to/your/folder"</span></span>
+<span><span class="va">window_size</span> <span class="op">&lt;-</span> <span class="fl">5</span>  <span class="co"># size of the window used to find local maxima</span></span>
+<span><span class="va">min_height</span> <span class="op">&lt;-</span> <span class="fl">2</span>  <span class="co"># minimum tree height to be considered</span></span>
+<span><span class="va">crs_definition</span> <span class="op">&lt;-</span> <span class="fl">4326</span>  <span class="co"># coordinate reference system definition</span></span>
+<span><span class="va">output_folder_path</span> <span class="op">&lt;-</span> <span class="st">"path/to/output/folder"</span></span>
+<span></span>
+<span><span class="co"># Processing CHM files in the folder and detecting tree tops</span></span>
+<span><span class="va">tops</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/tops_in_folder_to_shp.html">tops_in_folder_to_shp</a></span><span class="op">(</span><span class="va">folder_path</span>, <span class="va">window_size</span>, <span class="va">min_height</span>, <span class="va">crs_definition</span>, <span class="va">output_folder_path</span>, <span class="cn">TRUE</span>, <span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Displaying the detected tree tops</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">tops</span><span class="op">)</span></span></code></pre></div>
 </div>
 
   </main><aside class="col-md-3"><div class="license">
@@ -108,6 +249,7 @@
 <ul class="list-unstyled">
 <li><a href="https://codecov.io/gh/j-miszczyszyn/foRestools" class="external-link"><img src="https://codecov.io/gh/j-miszczyszyn/foRestools/branch/main/graph/badge.svg" alt="codecov"></a></li>
 <li><a href="https://opensource.org/licenses/GPL-3.0" class="external-link"><img src="https://img.shields.io/badge/License-GPL--3-blue.svg" alt="License: GPL-3"></a></li>
+<li><a href="https://github.com/j-miszczyszyn/foRestools/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/j-miszczyszyn/foRestools/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a></li>
 </ul>
 </div>
 
