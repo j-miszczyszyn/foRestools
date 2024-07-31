@@ -1,10 +1,12 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-<img src="man/figures/logo.png" align="right" height="114" alt="" /> \#
+<img src="man/figures/logo.png" align="right" height="300" alt="" /> \#
 foRestools
 
 <!-- badges: start -->
+
+[![R-CMD-check](https://github.com/j-miszczyszyn/foRestools/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/j-miszczyszyn/foRestools/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 The goal of foRestools is to providing toolkits and methods to support
