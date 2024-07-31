@@ -9,7 +9,6 @@ foRestools
 [![codecov](https://codecov.io/gh/j-miszczyszyn/foRestools/branch/main/graph/badge.svg)](https://codecov.io/gh/j-miszczyszyn/foRestools)
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/foRestools)](https://cran.r-project.org/package=foRestools)
 [![License: GPL-3](https://img.shields.io/badge/License-GPL--3-blue.svg)](https://opensource.org/licenses/GPL-3.0)
-[![Downloads](http://cranlogs.r-pkg.org/badges/grand-total/foRestools)](https://cran.r-project.org/package=foRestools)
 <!-- badges: end -->
 
 The goal of foRestools is to providing toolkits and methods to support
