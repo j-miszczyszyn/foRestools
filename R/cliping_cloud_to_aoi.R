@@ -16,19 +16,17 @@
 #' @examples
 #' \dontrun{
 #' # Assuming 'path_to_las', 'aoi_sf', 'output_folder', and 'crs_definition' are predefined:
-#' clipped_las <- cliping_cloud_to_aoi("path_to_las", aoi_sf, "output_folder", "crs_definition", TRUE) }
-
-cliping_cloud_to_aoi=function(las_path, aoi, folder, crs_def, save_las){
-  las=lidR::readLAS(las_path)
-  sf::st_crs(aoi)=crs_def
-  lidR::crs(las)=crs_def
-  las=lidR::clip_roi(las, aoi)
-  name=basename(las_path)
-  name=stringr::str_replace(name, ".las","")
-  if  (save_las==TRUE){
-    lidR::writeLAS(las, paste0(folder,"/", name,"_AOI.las"))
+#' clipped_las <- cliping_cloud_to_aoi("path_to_las", aoi_sf, "output_folder", "crs_definition", TRUE)
+#' }
+cliping_cloud_to_aoi <- function(las_path, aoi, folder, crs_def, save_las) {
+  las <- lidR::readLAS(las_path)
+  sf::st_crs(aoi) <- crs_def
+  lidR::crs(las) <- crs_def
+  las <- lidR::clip_roi(las, aoi)
+  name <- basename(las_path)
+  name <- stringr::str_replace(name, ".las", "")
+  if (save_las == TRUE) {
+    lidR::writeLAS(las, paste0(folder, "/", name, "_AOI.las"))
   }
   return(las)
 }
-
-

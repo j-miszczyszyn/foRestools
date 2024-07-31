@@ -13,7 +13,8 @@
 #' @examples
 #' \dontrun{
 #' result <- dem_download_big_area_rgugik("path/to/your/shapefile.shp", 10)
-#' print(result)}
+#' print(result)
+#' }
 dem_download_big_area_rgugik <- function(x, y) {
   # Read the shapefile defining the area of interest
   aoi <- sf::st_read(x)

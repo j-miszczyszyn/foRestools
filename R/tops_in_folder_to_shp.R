@@ -17,7 +17,8 @@
 #' @export
 #' @examples
 #' \dontrun{
-#' tops_in_folder_to_shp("path/to/your/folder", 5, 2, 4326, "path/to/output/folder", TRUE, TRUE)}
+#' tops_in_folder_to_shp("path/to/your/folder", 5, 2, 4326, "path/to/output/folder", TRUE, TRUE)
+#' }
 tops_in_folder_to_shp <- function(folder_path, ws_par, hmin_par, crs_def, output_folder, save_tops, save_SHP) {
   # List all CHM TIFF files in the specified folder
   l_CHM <- list.files(folder_path, full.names = TRUE, pattern = "\\.tif$")
@@ -25,18 +26,21 @@ tops_in_folder_to_shp <- function(folder_path, ws_par, hmin_par, crs_def, output
 
   # Process each CHM file
   for (i in seq_along(l_CHM)) {
-    tryCatch({
-      r <- raster::raster(l_CHM[i])
-      t <-foRestools::detect_tops_in_CHM(CHM_path = l_CHM[i], ws_par = ws_par, hmin_par = hmin_par, output_folder = output_folder, save_tops = save_tops)
-      temp <- data.frame(t)
-      temp$ID_NUMBER <- 1 + i
+    tryCatch(
+      {
+        r <- raster::raster(l_CHM[i])
+        t <- foRestools::detect_tops_in_CHM(CHM_path = l_CHM[i], ws_par = ws_par, hmin_par = hmin_par, output_folder = output_folder, save_tops = save_tops)
+        temp <- data.frame(t)
+        temp$ID_NUMBER <- 1 + i
 
-      # Append results to the existing dataframe
-      trees_finded <- rbind(trees_finded, temp)
-    }, error = function(e) {
-      # Capture the error but continue the loop
-      cat("Error in iteration", i, ":", conditionMessage(e), "\n")
-    })
+        # Append results to the existing dataframe
+        trees_finded <- rbind(trees_finded, temp)
+      },
+      error = function(e) {
+        # Capture the error but continue the loop
+        cat("Error in iteration", i, ":", conditionMessage(e), "\n")
+      }
+    )
   }
 
   # Convert the dataframe to an sf object

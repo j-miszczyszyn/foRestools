@@ -15,15 +15,15 @@
 #' @examples
 #' \dontrun{
 #' # Assuming 'path_to_las' and 'output_folder' are predefined:
-#' normalized_las <- normalize_height_in_clouds("path_to_las", "output_folder", TRUE)}
-
-normalize_height_in_clouds=function(las_path, folder, save_las){
-  las=lidR::readLAS(las_path)
-  las_norm=lidR::normalize_height(las, lidR::tin(),use_class =c(2L) )
-  name=basename(las_path)
-  name=stringr::str_replace(name, ".las","")
-  if  (save_las==TRUE){
-   lidR::writeLAS(las_norm, paste0(folder,"/", name,"_NORM.las"))
+#' normalized_las <- normalize_height_in_clouds("path_to_las", "output_folder", TRUE)
+#' }
+normalize_height_in_clouds <- function(las_path, folder, save_las) {
+  las <- lidR::readLAS(las_path)
+  las_norm <- lidR::normalize_height(las, lidR::tin(), use_class = c(2L))
+  name <- basename(las_path)
+  name <- stringr::str_replace(name, ".las", "")
+  if (save_las == TRUE) {
+    lidR::writeLAS(las_norm, paste0(folder, "/", name, "_NORM.las"))
   }
-return(las_norm)
-  }
+  return(las_norm)
+}
