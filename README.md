@@ -5,6 +5,7 @@
 FoRestools
 
 <!-- badges: start -->
+
 [![codecov](https://codecov.io/gh/j-miszczyszyn/foRestools/branch/main/graph/badge.svg)](https://codecov.io/gh/j-miszczyszyn/foRestools)
 [![License:
 GPL-3](https://img.shields.io/badge/License-GPL--3-blue.svg)](https://opensource.org/licenses/GPL-3.0)
