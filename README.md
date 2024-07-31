@@ -11,6 +11,8 @@ FoRestools
 [![License:
 GPL-3](https://img.shields.io/badge/License-GPL--3-blue.svg)](https://opensource.org/licenses/GPL-3.0)
 [![R-CMD-check](https://github.com/j-miszczyszyn/foRestools/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/j-miszczyszyn/foRestools/actions/workflows/R-CMD-check.yaml)
+[![Codecov test
+coverage](https://codecov.io/gh/j-miszczyszyn/foRestools/graph/badge.svg)](https://app.codecov.io/gh/j-miszczyszyn/foRestools)
 <!-- badges: end -->
 
 The goal of foRestools is to providing toolkits and methods to support
