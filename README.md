@@ -1,13 +1,16 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-<img src="man/figures/logo.png" align="right" height="300" alt="" /> \#
-foRestools
+<img src="man/figures/logo.png" align="right" height="300" alt="" />
+FoRestools
 
 <!-- badges: start -->
+
 ![R-CMD-check](https://github.com/j-miszczyszyn/foRestools/actions/workflows/R-CMD-check.yaml/badge.svg)
 [![codecov](https://codecov.io/gh/j-miszczyszyn/foRestools/branch/main/graph/badge.svg)](https://codecov.io/gh/j-miszczyszyn/foRestools)
-[![License: GPL-3](https://img.shields.io/badge/License-GPL--3-blue.svg)](https://opensource.org/licenses/GPL-3.0)
+[![License:
+GPL-3](https://img.shields.io/badge/License-GPL--3-blue.svg)](https://opensource.org/licenses/GPL-3.0)
+[![R-CMD-check](https://github.com/j-miszczyszyn/foRestools/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/j-miszczyszyn/foRestools/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 The goal of foRestools is to providing toolkits and methods to support
@@ -23,25 +26,204 @@ You can install the development version of foRestools from
 devtools::install_github("j-miszczyszyn/foRestools")
 ```
 
-## Example
+## Calculating new coordinates
 
-This is a basic example which shows you how to solve a common problem:
+The function calculate_new_position calculates the new coordinates,
+taking into account the initial longitude and latitude, distance in
+meters and direction in degrees.
 
 ``` r
 library(foRestools)
 
-# #Set a filepath to your raster
-# r=stars::read_stars("filepath")
-# 
-# #Set number of bands
-# define_nir(8)
-# define_red(6)
-# 
-# #Chose and calculate index
-# calculate_NDVI(r)
-# 
-# # Plot Index
-# plot(ndvi)
+# Starting coordinates
+start_lon <- 19.9449799  # longitude for Krakow, Poland
+start_lat <- 50.0646501  # latitude for Krakow, Poland
 
-## basic example code
+# Distance in meters and direction in degrees
+distance <- 1000  # 1 km
+bearing <- 45  # 45 degrees (northeast)
+
+# Calculate new coordinates
+new_position <- calculate_new_position(start_lon, start_lat, distance, bearing)
+
+# Print new coordinates
+print(paste("New longitude:", new_position$longitude))
+print(paste("New latitude:", new_position$latitude))
+```
+
+## Clipping LiDAR Point Cloud to AOI
+
+The function cliping_cloud_to_aoi reads a LAS file, assigns a new
+coordinate reference system (CRS) to both the point cloud and the Area
+of Interest (AOI), clips the point cloud to the AOI, and optionally
+saves the clipped point cloud to a new LAS file.
+
+``` r
+
+library(foRestools)
+
+# Assuming 'path_to_las', 'aoi_sf', 'output_folder', and 'crs_definition' are predefined:
+path_to_las <- "path/to/your/input.las"
+aoi_sf <- sf::st_read("path/to/your/aoi.shp")
+output_folder <- "path/to/output/folder"
+crs_definition <- "+proj=utm +zone=33 +datum=WGS84 +units=m +no_defs"
+
+# Clipping the point cloud to the AOI
+clipped_las <- cliping_cloud_to_aoi(path_to_las, aoi_sf, output_folder, crs_definition, TRUE)
+
+# Displaying the clipped point cloud
+print(clipped_las)
+```
+
+## Creating Canopy Height Model (CHM) from LAS File
+
+The function create_CHM_from_LAS processes a LAS file to generate a
+Canopy Height Model (CHM) using the specified resolution and
+pixel-to-region (p2r) parameters. The resulting CHM can optionally be
+saved as a TIFF file in the specified output folder.
+
+``` r
+
+library(foRestools)
+
+# Assuming 'las_file_path', 'resolution', 'p2r_parameter', and 'output_folder_path' are predefined:
+las_file_path <- "path/to/your/las_file.las"
+resolution <- 0.5  # size of each pixel in the output raster
+p2r_parameter <- 2  # pixel-to-region parameter for rasterizing the point cloud
+output_folder_path <- "path/to/output/folder"
+
+# Creating the CHM from the LAS file
+create_CHM_from_LAS(las_file_path, resolution, p2r_parameter, TRUE, output_folder_path)
+```
+
+## Downloading DEM for a Large Area from RGUGIK
+
+The function dem_download_big_area_rgugik downloads Digital Elevation
+Model (DEM) data for a large area specified by a shapefile. The area is
+divided into a grid of smaller sections to manage the request size. The
+DEM data for each section is requested from the RGUGIK service and
+combined into a single dataframe.
+
+``` r
+
+library(foRestools)
+
+# Assuming 'shapefile_path' and 'grid_cells' are predefined:
+shapefile_path <- "path/to/your/shapefile.shp"
+grid_cells <- 10  # number of grid cells to divide the area of interest
+
+# Downloading DEM data for the large area
+result <- dem_download_big_area_rgugik(shapefile_path, grid_cells)
+
+# Printing the result
+print(result)
+```
+
+## Detecting Tree Tops in a Canopy Height Model (CHM)
+
+The function detect_tops_in_CHM identifies tree tops in a Canopy Height
+Model (CHM) file using the local maxima filter (LMF) algorithm provided
+by the lidR package. The identified tree tops can optionally be saved as
+a shapefile.
+
+``` r
+
+library(foRestools)
+
+# Assuming 'CHM_file_path', 'window_size', 'min_height', and 'output_folder_path' are predefined:
+CHM_file_path <- "path/to/your/CHM.tif"
+window_size <- 5  # size of the window used to find local maxima
+min_height <- 10  # minimum tree height to be considered
+output_folder_path <- "path/to/output/folder"
+
+# Detecting tree tops in the CHM
+detect_tops_in_CHM(CHM_file_path, window_size, min_height, output_folder_path, TRUE)
+```
+
+## Normalizing Height of LiDAR Point Cloud
+
+The function normalize_height_in_clouds reads a LAS file, normalizes the
+heights of the point cloud using a TIN surface, and optionally saves the
+normalized point cloud to a new LAS file. Only the points classified as
+ground (class = 2) are used to compute the TIN surface.
+
+``` r
+
+library(foRestools)
+
+# Assuming 'path_to_las' and 'output_folder' are predefined:
+path_to_las <- "path/to/your/input.las"
+output_folder <- "path/to/output/folder"
+
+# Normalizing the height of the point cloud
+normalized_las <- normalize_height_in_clouds(path_to_las, output_folder, TRUE)
+
+# Displaying the normalized point cloud
+print(normalized_las)
+```
+
+## Downloading Orthophoto for a Large Area from RGUGIK
+
+The function ortho_download_big_area_rgugik downloads orthophoto data
+for a large area specified by a shapefile. The area is divided into a
+grid of smaller sections to manage the request size. The orthophoto data
+for each section is requested from the RGUGIK service and combined into
+a single dataframe.
+
+``` r
+
+library(foRestools)
+
+# Assuming 'shapefile_path' and 'grid_cells' are predefined:
+shapefile_path <- "path/to/your/shapefile.shp"
+grid_cells <- 10  # number of grid cells to divide the area of interest
+
+# Downloading orthophoto data for the large area
+result <- ortho_download_big_area_rgugik(shapefile_path, grid_cells)
+
+# Printing the result
+print(result)
+```
+
+## Thinning Point Cloud by Keeping Specific Classes
+
+The function thin_cloud reads a LAS file, filters it to retain only
+specified classes of points (e.g., vegetation), and optionally saves the
+thinned point cloud to a new LAS file. The function specifically keeps
+points classified as 4 (medium vegetation) and 5 (high vegetation) by
+default.
+
+``` r
+
+library(foRestools)
+
+# Assuming 'path_to_las' and 'output_folder' are predefined:
+path_to_las <- "path/to/your/point_cloud.las"
+output_folder <- "path/to/output/folder"
+```
+
+## Processing CHM Files in Folder and Optionally Saving Tree Tops to Shapefile
+
+The function tops_in_folder_to_shp processes all Canopy Height Model
+(CHM) TIFF files in a specified folder, detects tree tops using the
+detect_tops_in_CHM function, and optionally saves the results as a
+shapefile. Each tree top detection is assigned an ID number and the
+results are combined into a spatial dataframe.
+
+``` r
+
+library(foRestools)
+
+# Assuming 'folder_path', 'window_size', 'min_height', 'crs_definition', and 'output_folder_path' are predefined:
+folder_path <- "path/to/your/folder"
+window_size <- 5  # size of the window used to find local maxima
+min_height <- 2  # minimum tree height to be considered
+crs_definition <- 4326  # coordinate reference system definition
+output_folder_path <- "path/to/output/folder"
+
+# Processing CHM files in the folder and detecting tree tops
+tops <- tops_in_folder_to_shp(folder_path, window_size, min_height, crs_definition, output_folder_path, TRUE, TRUE)
+
+# Displaying the detected tree tops
+print(tops)
 ```
