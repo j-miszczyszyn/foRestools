@@ -1,7 +1,8 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-<img src="Logo.png" align="right" alt="" width="300" /> \# foRestools
+<img src="man/figures/logo.png" align="right" height="114" alt="" /> \#
+foRestools
 
 <!-- badges: start -->
 <!-- badges: end -->
