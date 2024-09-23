@@ -40,5 +40,6 @@ is assigned an ID number and the results are combined into a spatial dataframe.
 }
 \examples{
 \dontrun{
-tops_in_folder_to_shp("path/to/your/folder", 5, 2, 4326, "path/to/output/folder", TRUE, TRUE)}
+tops_in_folder_to_shp("path/to/your/folder", 5, 2, 4326, "path/to/output/folder", TRUE, TRUE)
+}
 }

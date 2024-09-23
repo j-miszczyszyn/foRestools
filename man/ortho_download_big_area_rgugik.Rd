@@ -22,5 +22,6 @@ and combined into a single dataframe.
 \examples{
 \dontrun{
 result <- ortho_download_big_area_rgugik("path/to/your/shapefile.shp", 10)
-print(result)}
+print(result)
+}
 }

@@ -25,5 +25,6 @@ ground (class = 2) are used to compute the TIN surface.
 \examples{
 \dontrun{
 # Assuming 'path_to_las' and 'output_folder' are predefined:
-normalized_las <- normalize_height_in_clouds("path_to_las", "output_folder", TRUE)}
+normalized_las <- normalize_height_in_clouds("path_to_las", "output_folder", TRUE)
+}
 }

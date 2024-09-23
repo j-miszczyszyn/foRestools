@@ -28,5 +28,6 @@ clips the point cloud to the AOI, and optionally saves the clipped point cloud t
 \examples{
 \dontrun{
 # Assuming 'path_to_las', 'aoi_sf', 'output_folder', and 'crs_definition' are predefined:
-clipped_las <- cliping_cloud_to_aoi("path_to_las", aoi_sf, "output_folder", "crs_definition", TRUE) }
+clipped_las <- cliping_cloud_to_aoi("path_to_las", aoi_sf, "output_folder", "crs_definition", TRUE)
+}
 }

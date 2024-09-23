@@ -24,6 +24,7 @@ classified as 4 (medium vegetation) and 5 (high vegetation) by default.
 This function does not return a value but outputs a LAS file of the thinned point cloud if \code{save_las} is TRUE.
 }
 \examples{
-
-\dontrun{thin_cloud("path/to/your/point_cloud.las", "path/to/output/folder", TRUE)}
+\dontrun{
+thin_cloud("path/to/your/point_cloud.las", "path/to/output/folder", TRUE)
+}
 }

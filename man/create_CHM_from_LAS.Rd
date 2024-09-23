@@ -28,5 +28,6 @@ The function uses the \code{rasterize_canopy} method from the lidR package for r
 }
 \examples{
 \dontrun{
-create_CHM_from_LAS("path/to/your/las_file.las", 0.5, 2, TRUE, "path/to/output/folder")}
+create_CHM_from_LAS("path/to/your/las_file.las", 0.5, 2, TRUE, "path/to/output/folder")
+}
 }

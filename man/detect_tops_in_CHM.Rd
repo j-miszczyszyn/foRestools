@@ -30,5 +30,6 @@ provided by the lidR package. The identified tree tops can optionally be saved a
 }
 \examples{
 \dontrun{
-detect_tops_in_CHM("path/to/your/CHM.tif", 5, 10, "path/to/output/folder", TRUE)}
+detect_tops_in_CHM("path/to/your/CHM.tif", 5, 10, "path/to/output/folder", TRUE)
+}
 }
