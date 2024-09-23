@@ -32,8 +32,8 @@ calculate_new_tree_position <- function(plot, save, crs, dataset, plot_center_x,
 
   # Convert azimuth and distance to Cartesian coordinates
   x <- dplyr::mutate(x,
-                     x_pos = plot_center_x + distance * sin(azimuth * pi / 180),
-                     y_pos = plot_center_y + distance * cos(azimuth * pi / 180)
+    x_pos = plot_center_x + distance * sin(azimuth * pi / 180),
+    y_pos = plot_center_y + distance * cos(azimuth * pi / 180)
   )
 
   # Create an sf object with the specified CRS (EPSG: 2180)
@@ -46,4 +46,3 @@ calculate_new_tree_position <- function(plot, save, crs, dataset, plot_center_x,
 
   return(trees_sf)
 }
-
