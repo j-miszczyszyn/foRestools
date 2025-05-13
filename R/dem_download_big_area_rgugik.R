@@ -17,11 +17,10 @@
 #' result2 <- dem_download_big_area_rgugik("path/to/your/shapefile.shp", y = 500)
 #' print(result)
 #' }
-
 dem_download_big_area_rgugik <- function(x, y = 316.23) {
   # Read the shapefile defining the area of interest
   aoi <- sf::st_read(x)
-  aoi=sf::st_buffer(aoi, dist = 100)
+  aoi <- sf::st_buffer(aoi, dist = 100)
   poland_geom <- rgugik::borders_get()
   aoi <- sf::st_intersection(aoi, poland_geom)
 
