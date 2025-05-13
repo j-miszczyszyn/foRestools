@@ -4,24 +4,26 @@
 \alias{dem_download_big_area_rgugik}
 \title{Download DEM for a Large Area from RGUGIK}
 \usage{
-dem_download_big_area_rgugik(x, y)
+dem_download_big_area_rgugik(x, y = 316.23)
 }
 \arguments{
 \item{x}{The file path to the shapefile defining the area of interest.}
 
-\item{y}{The number of grid cells to divide the area of interest into.}
+\item{y}{The cell size (in meters) used to divide the area into a grid. Default is 316.23 (approx. 10 ha cells).}
 }
 \value{
 A dataframe containing the DEM data for the specified area.
 }
 \description{
-This function downloads Digital Elevation Model (DEM) data for a large area specified by a shapefile. The area is divided
-into a grid of smaller sections to manage the request size. The DEM data for each section is requested from the RGUGIK service
+This function downloads Digital Elevation Model (DEM) data for a large area specified by a shapefile.
+The area is divided into a grid of smaller sections based on a specified cell size (in meters)
+to manage the request size. The DEM data for each section is requested from the RGUGIK service
 and combined into a single dataframe.
 }
 \examples{
 \dontrun{
-result <- dem_download_big_area_rgugik("path/to/your/shapefile.shp", 10)
+result <- dem_download_big_area_rgugik("path/to/your/shapefile.shp")
+result2 <- dem_download_big_area_rgugik("path/to/your/shapefile.shp", y = 500)
 print(result)
 }
 }
